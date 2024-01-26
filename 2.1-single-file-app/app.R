@@ -22,14 +22,14 @@ ui <- fluidPage(
   # body mass plot output
   plotOutput(outputId = "bodyMass_scatterplot_output"),
   
-  # year check box input ----
-  checkboxGroupInput(inputId = "cbox_year_input",
-                     label = "Select year(s):",
+  # year checkbox input ----
+  checkboxGroupInput(inputId = "year_input", label = "Select year(s):",
                      choices = c("2007", "2008", "2009"),
-                     selected = "2008"),
+                     selected = c("2007", "2008")),
   
-  # year check box output
-  DT::dataTableOutput(outputId = "cbox_year_output")
+  # year DT output ----
+  DT::dataTableOutput(outputId = "penguin_DT_output")
+  
 )
 
 # server ----
@@ -64,17 +64,21 @@ server <- function(input, output) {
         theme(legend.position = c(0.85, 0.2),
               legend.background = element_rect(color = "White"))
     })
+  
   # filter for years ----
   years_df <- reactive({
     penguins %>% 
-      filter(year %in% c(input$cbox_year_input))
-  })
-  # render DT table ----
-  output$cbox_year_output <-
-    DT::renderDataTable({
-      
-      DT:datatable(years_df())
+      filter(year %in% c(input$year_input))
     })
+  
+  # render the DT ----
+  output$penguin_DT_output <- DT::renderDataTable({
+    
+    DT::datatable(years_df(),
+                  options = list(pagelength = 10),
+                  rownames = FALSE)
+    
+  })
 }
 
 # combine ui and server into app ----
