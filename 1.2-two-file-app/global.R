@@ -1,9 +1,11 @@
 # load packages ----
 library(shiny)
 library(shinyWidgets) #extension package w/additional input objects
+library(palmerpenguins)
 library(lterdatasampler) 
 library(tidyverse)
-library(shinyWidgets)
+library(markdown)
+library(shinycssloaders)
 
 # wrangling trout code ----
 clean_trout <- and_vertebrates |>

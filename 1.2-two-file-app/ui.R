@@ -1,91 +1,105 @@
-# user interface ----
 ui <- navbarPage(
   
   title = "LTER Animal Data Explorer",
   
-  # (PAGE 1) Intro tabPanel ----
-  tabPanel(title = "About this page",
+  # (Page 1) intro tabPanel ----
+  tabPanel(title = "About this App",
            
-           "background info goes here"), #END (PAGE 1) Intro tabPanel
+           # intro text fluidRow ----
+           fluidRow(
+             
+             # use columns to create white space on sides
+             column(1),
+             column(10, includeMarkdown("text/about.md")),
+             column(1)
+             
+           ), # END intro text fluidRow
+           
+           hr(), # creates light gray horizontal line
+           
+           # footer text ----
+           includeMarkdown("text/footer.md")
+           
+  ), # END (Page 1) intro tabPanel
   
-  # (PAGE 2) Data viz tabPanel -----
+  # (Page 2) data viz tabPanel ----
   tabPanel(title = "Explore the Data",
            
-           #tabsetPanel to contain tabs for data viz ----
+           # tabsetPanel to contain tabs for data viz ----
            tabsetPanel(
              
-             # trout tab panel ----
+             # trout tabPanel ----
              tabPanel(title = "Trout",
                       
-                      # trout sidebarLayout ----
+                      # trout plot sidebarLayout ----
                       sidebarLayout(
                         
-                        # trout sidebarPanel ----
+                        # trout plot sidebarPanel ----
                         sidebarPanel(
                           
-                          # channel type pickerinput ----
-                          pickerInput(inputId = "channel_type_input",
-                                      label = "Select channel type(s):",
+                          # channel type pickerInput ----
+                          pickerInput(inputId = "channel_type_input", label = "Select channel type(s):",
                                       choices = unique(clean_trout$channel_type),
-                                      selected = c("pool"),
-                                      
-                                      # add select/deselect all option
+                                      selected = c("cascade", "pool"),
                                       options = pickerOptions(actionsBox = TRUE),
-                                      
-                                      multiple = TRUE), # END trout channel pickerinput
+                                      multiple = TRUE), # END channel type pickerInput
                           
-                          # section checkboxGroupButtons ----
-                          checkboxGroupButtons(inputId = "section_input",
-                                               label = "Select sampling section(s):",
+                          # # section checkboxGroupInput ----
+                          checkboxGroupButtons(inputId = "section_input", label = "Select a sampling section(s):",
                                                choices = c("clear cut forest", "old growth forest"),
                                                selected = c("clear cut forest", "old growth forest"),
-                                               individual = FALSE, #puts buttons next to each other
-                                               justified = TRUE, #width of buttons fill width of panel
-                                               size = "sm",
-                                               checkIcon = list(yes = icon("check"))
-                          ) # END section checkboxGroupButtons
+                                               individual = FALSE, justified = TRUE, size = "sm",
+                                               checkIcon = list(yes = icon("check", lib = "font-awesome"), 
+                                                                no = icon("xmark", lib = "font-awesome"))), # END section checkboxGroupInput
                           
-                        ), # END trout sidebarPanel
+                        ), # END trout plot sidebarPanel
                         
-                        # trout mainPanel ----
+                        # trout plot mainPanel ----
                         mainPanel(
                           
-                          # trout scatterplot output ----
                           plotOutput(outputId = "trout_scatterplot_output")
                           
-                        ) # END trout mainPanel
+                        ) # END trout plot mainPanel
                         
-                      ) # END trout sidebarLayout
+                      ) # END trout plot sidebarLayout
                       
-             ), # END trout tabPanel
+             ), # END trout tabPanel 
              
-             # penguin tab panel ----
-             tabPanel(title = "Penguin",
+             # penguin tabPanel ----
+             tabPanel(title = "Penguins",
                       
-                      #penguin sidebarLayout ----
+                      # penguin plot sidebarLayout ----
                       sidebarLayout(
                         
-                        # penguin sidebarPanel ----
+                        # penguin plot sidebarPanel ----
                         sidebarPanel(
                           
-                          "penguin inputs will live here"
+                          # island pickerInput ----
+                          pickerInput(inputId = "penguin_island_input", label = "Select an island(s):",
+                                      choices = c("Torgersen", "Dream", "Biscoe"),
+                                      selected = c("Torgersen", "Dream", "Biscoe"),
+                                      options = pickerOptions(actionsBox = TRUE),
+                                      multiple = TRUE), # END island pickerInput
                           
-                        ), # END penguin sidebarPanel
+                          # bin number sliderInput ----
+                          sliderInput(inputId = "bin_num_input", label = "Select number of bins:",
+                                      value = 25, max = 100, min = 1), # END bin number sliderInput
+                          
+                        ), # END penguin plot sidebarPanel
                         
-                        # penguin mainPanel ----
-                        
+                        # penguin plot mainPanel ----
                         mainPanel(
                           
-                          "this is where my penguin output will live"
+                          plotOutput(outputId = "flipperLength_histogram_output") 
                           
-                        ) # END penguin mainPanel
+                        ) # END penguin plot mainPanel
                         
-                      ) # END penguin sidebarLayout
+                      ) # END penguin plot sidebarLayout
                       
              ) # END penguin tabPanel
              
            ) # END tabsetPanel
            
-  ) # END (PAGE 2) data viz tabPanel
+  ) # END (Page 2) data viz tabPanel
   
 ) # END navbarPage
