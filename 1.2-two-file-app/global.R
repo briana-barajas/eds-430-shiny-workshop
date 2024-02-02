@@ -6,6 +6,7 @@ library(lterdatasampler)
 library(tidyverse)
 library(markdown)
 library(shinycssloaders)
+library(sass) # custom themes w/sass
 
 # wrangling trout code ----
 clean_trout <- and_vertebrates |>
@@ -36,3 +37,10 @@ myCustomTheme <- function() {
           legend.position = "bottom",
           panel.border = element_rect(linewidth = 0.7))
 }
+
+# compile CSS ----
+sass(
+  input = sass_file("www/sass-styles.scss"),
+  output = "www/sass-styles.css",
+  options = sass_options(output_style = "compressed")
+)

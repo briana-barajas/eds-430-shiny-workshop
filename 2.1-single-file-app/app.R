@@ -3,9 +3,28 @@ library(shiny)
 library(DT)
 library(palmerpenguins)
 library(tidyverse)
+library(bslib)
+
 
 # user interface ----
 ui <- fluidPage(
+  
+  # change theme ----
+  theme = bs_theme(
+    
+    # background color
+    bg = "#FDF7F7",
+    
+    # foreground color, text
+    fg = "#A36F6F",
+    
+    # primary accent color
+    primary = "#483132",
+    
+    # pull font from google
+    base_font = font_google("Pacifico")
+    
+  ),
   
   # app title ---
   tags$h1("2.2 Penguins App"),
