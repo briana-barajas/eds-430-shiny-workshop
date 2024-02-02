@@ -50,3 +50,5 @@ rsconnect/
 
 # my stuff
 .DS_Store
+data/
+raw_data/
